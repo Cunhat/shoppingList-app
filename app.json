@@ -1,0 +1,12 @@
+{
+  "name": "shoppingList-app",
+  "displayName": "shoppingList-app",
+  "expo": {
+    "name": "shoppingList-app",
+    "slug": "shoppingList-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
