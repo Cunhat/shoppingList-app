@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View , TouchableOpacity } from "react-native";
 import {  MaterialCommunityIcons   } from "@expo/vector-icons";
 import LinearGradient from "react-native-linear-gradient";
 
@@ -22,11 +22,11 @@ export default function ListComponent({...props}) {
     end={{ x: 1, y: 1 }}
   >
     
-        <View style={styles.insideContainer}>
+        <TouchableOpacity  style={styles.insideContainer} onPress={props.clicked}>
             <MaterialCommunityIcons name="apps" size={30} color="#FFF" />
             <Text style={styles.title}>{props.name}</Text>
             <Text style={styles.counter}>10/20</Text>
-        </View>
+        </TouchableOpacity >
     </LinearGradient>
   );
 }
