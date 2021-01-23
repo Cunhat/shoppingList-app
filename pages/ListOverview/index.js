@@ -5,7 +5,7 @@ import {
   SimpleLineIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import {  Modal, Portal, Button, Provider } from "react-native-paper";
+import { Modal, Portal, Button, Provider } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import LisComponent from "../../components/ListComponent";
@@ -14,10 +14,15 @@ export default function ListOverview() {
   const listItems = useSelector((state) => state.shoppingListsReducer);
 
   const [visible, setVisible] = React.useState(false);
+  const [modalItems, setModalItems] = React.useState([]);
 
-  const showModal = () => {setVisible(true); console.log("Pressit")}
+  const showModal = (item) => {
+    setVisible(true);
+    setModalItems(item.items);
+    console.log(item);
+  };
   const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20};
+  const containerStyle = { backgroundColor: "white", padding: 20 };
 
   React.useEffect(() => {
     console.log(listItems.lists);
@@ -31,7 +36,7 @@ export default function ListOverview() {
               key={item.title}
               style={styles.list}
               name={item.title}
-              clicked={() => showModal() }
+              clicked={() => showModal(item)}
             ></LisComponent>
           ))
         : null}
@@ -42,7 +47,7 @@ export default function ListOverview() {
             onDismiss={hideModal}
             contentContainerStyle={containerStyle}
           >
-            <Text>Example Modal. Click outside this area to dismiss.</Text>
+            {modalItems.map(modalItem => <Text key={modalItem}>{modalItem}</Text>)}
           </Modal>
         </Portal>
       </Provider>
