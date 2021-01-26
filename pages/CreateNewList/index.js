@@ -67,6 +67,7 @@ export default function CreateNewList() {
             setItem("");
           }}
           style={styles.button}
+          disabled={ item.length > 0 ? false : true}
         >
           Add Item
         </Button>
