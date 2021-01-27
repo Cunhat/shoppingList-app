@@ -5,7 +5,7 @@ import {
   SimpleLineIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import { Modal, Portal, Button, Provider, Checkbox  } from "react-native-paper";
+import { Modal, Portal, Button, Provider, Checkbox } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import LisComponent from "../../components/ListComponent";
@@ -15,16 +15,19 @@ export default function ListOverview() {
 
   const [visible, setVisible] = React.useState(false);
   const [modalItems, setModalItems] = React.useState([]);
+  const [showLists, setShowLists] = React.useState(true);
 
   const showModal = (item) => {
     setVisible(true);
     setModalItems(item.items);
-    console.log(item);
+    setShowLists(!showLists);
   };
-  const hideModal = () => setVisible(false);
+  const hideModal = () => {
+    setVisible(false);
+    setShowLists(!showLists);
+    setModalItems([]);
+  };
   const [checked, setChecked] = React.useState(false);
-
-  
 
   React.useEffect(() => {
     console.log(listItems.lists);
@@ -32,16 +35,20 @@ export default function ListOverview() {
 
   return (
     <View style={styles.container}>
-      {listItems !== undefined
-        ? listItems.lists.map((item) => (
-            <LisComponent
-              key={item.title}
-              style={styles.list}
-              name={item.title}
-              clicked={() => showModal(item)}
-            ></LisComponent>
-          ))
-        : null}
+      {showLists ? (
+        <View style={styles.listContainer}>
+          {listItems !== undefined
+            ? listItems.lists.map((item) => (
+                <LisComponent
+                  key={item.title}
+                  style={styles.list}
+                  name={item.title}
+                  clicked={() => showModal(item)}
+                ></LisComponent>
+              ))
+            : null}
+        </View>
+      ) : ( null  )}
       <Provider>
         <Portal>
           <Modal
@@ -49,21 +56,22 @@ export default function ListOverview() {
             onDismiss={hideModal}
             contentContainerStyle={styles.containerStyle}
           >
-            {modalItems.map(modalItem => {
+            {modalItems.map((modalItem) => {
               return (
                 <View style={styles.insideContainer}>
-                  <Text key={modalItem} style={styles.textField}>{modalItem}</Text>
+                  <Text key={modalItem} style={styles.textField}>
+                    {modalItem}
+                  </Text>
                   <Checkbox
-                    status={checked ? 'checked' : 'unchecked'}
+                    status={checked ? "checked" : "unchecked"}
                     onPress={() => {
-                    setChecked(!checked);
-                      }}
-                    style={{marginBottom: 10}}
+                      setChecked(!checked);
+                    }}
+                    style={{ marginBottom: 10 }}
                   />
                 </View>
-           
-            
-            );})}
+              );
+            })}
           </Modal>
         </Portal>
       </Provider>
@@ -77,19 +85,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#292b30",
     height: "100%",
     width: "100%",
+    alignItems: "center",
+  },
+  listContainer: {
     height: "100%",
+    width: "100%",
     alignItems: "center",
   },
   containerStyle: {
-    backgroundColor: "white", 
+    backgroundColor: "white",
     padding: 20,
-    marginHorizontal: 15
+    marginHorizontal: 15,
+    borderRadius: 20
   },
-  textField:{
-    fontSize: 20
+  textField: {
+    fontSize: 20,
   },
-  insideContainer:{
+  insideContainer: {
     flexDirection: "row",
-    marginBottom: 10
-  }
+    marginBottom: 10,
+    height : "85%",
+   
+  },
 });
